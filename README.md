@@ -18,10 +18,12 @@ A comprehensive Personal Finance Management (PFM) application built with Flutter
 - Multi-currency support
 
 ### 📊 Budgets & Goals
-- Category-based budgeting
-- Family-wide and per-member budgets
-- Savings goals with progress tracking
-- Budget alerts (80%, 90%, 100%)
+- **Category-based budgeting** - Set spending limits per category
+- **Family-wide budgets** - Track total household spending
+- **Per-member budgets** - Monitor individual member expenses
+- **Automatic tracking** - Budgets update in real-time via Cloud Functions
+- **Smart alerts** - Get notified at 80%, 90%, and 100% thresholds
+- **Savings goals** with progress tracking and contributions
 
 ### 📈 Reports & Analytics
 - Visual spending charts
@@ -44,11 +46,12 @@ A comprehensive Personal Finance Management (PFM) application built with Flutter
 ## Technology Stack
 
 - **Frontend**: Flutter 3.x
-- **Backend**: Firebase (Firestore, Auth, Storage)
+- **Backend**: Firebase (Firestore, Auth, Storage, Cloud Functions)
 - **State Management**: Riverpod
 - **Routing**: go_router
 - **Charts**: FL Chart, Syncfusion Charts
 - **OCR**: Google ML Kit
+- **Cloud Functions**: TypeScript (Node.js 18)
 
 ## Project Structure
 
@@ -128,43 +131,47 @@ lib/
 
 4. **Set up Firestore Security Rules**
 
-   Go to Firebase Console > Firestore Database > Rules and add:
-
-   ```javascript
-   rules_version = '2';
-   service cloud.firestore {
-     match /databases/{database}/documents {
-       // Users collection
-       match /users/{userId} {
-         allow read, write: if request.auth != null && request.auth.uid == userId;
-       }
-
-       // Households collection
-       match /households/{householdId} {
-         allow read: if request.auth != null &&
-           exists(/databases/$(database)/documents/household_members/$(request.auth.uid + '_' + householdId));
-         allow write: if request.auth != null;
-       }
-
-       // Wallets collection
-       match /wallets/{walletId} {
-         allow read, write: if request.auth != null;
-       }
-
-       // Transactions collection
-       match /transactions/{transactionId} {
-         allow read, write: if request.auth != null;
-       }
-
-       // Categories, Budgets, Goals, Bills, Debts
-       match /{document=**} {
-         allow read, write: if request.auth != null;
-       }
-     }
-   }
+   Copy the rules from `firestore.rules` file in the project root:
+   ```bash
+   firebase deploy --only firestore:rules
    ```
 
-5. **Run the app**
+   Or manually copy the content to Firebase Console > Firestore Database > Rules.
+
+5. **Deploy Cloud Functions (Required for Budget Tracking)**
+
+   ⚠️ **IMPORTANT**: The Budgets feature requires Cloud Functions to be deployed. Without them, budget usage will not update when transactions are created.
+
+   a. Upgrade to Firebase Blaze Plan (pay-as-you-go):
+      - Go to Firebase Console > Project Settings > Usage and billing
+      - Click "Modify plan" and select Blaze
+      - *Note: Small usage (5-10 transactions/day) costs ~$0.10-0.50/month*
+
+   b. Deploy the functions:
+   ```bash
+   # Quick deploy
+   ./scripts/deploy-functions.sh
+   
+   # Or manual deploy
+   cd functions
+   npm install
+   npm run build
+   npm run deploy
+   ```
+
+   c. Verify deployment:
+   ```bash
+   firebase functions:list
+   ```
+   
+   You should see:
+   - `onTransactionCreate`
+   - `onTransactionUpdate`
+   - `onTransactionDelete`
+
+   **📖 See [CLOUD_FUNCTIONS_SETUP.md](CLOUD_FUNCTIONS_SETUP.md) for detailed instructions**
+
+6. **Run the app**
    ```bash
    # For Android
    flutter run
@@ -249,15 +256,42 @@ flutter build web --release
 
 ## Key Features Implementation
 
-### 1. Role-Based Access
+### 1. Budget Tracking System
+
+The Budgets feature automatically tracks spending against limits set by the household head:
+
+**How It Works:**
+1. **Head creates budget**: Set spending limits per category (family-wide or per-member)
+2. **Member creates transaction**: When any member makes an expense from a shared wallet
+3. **Cloud Function triggers**: Automatically updates budget usage in real-time
+4. **Notifications sent**: Alerts at 80%, 90%, and 100% thresholds
+5. **UI updates**: Budget cards show current spending and remaining amounts
+
+**Budget Types:**
+- **Family Budgets**: Track total household spending (all members combined)
+- **Member Budgets**: Track individual member spending only
+
+**Technical Implementation:**
+- **Cloud Functions** (`functions/src/index.ts`):
+  - `onTransactionCreate`: Adds transaction to budget usage
+  - `onTransactionUpdate`: Adjusts budget for amount changes
+  - `onTransactionDelete`: Removes transaction from budget usage
+- **Firestore Collections**:
+  - `budgets`: Stores budget definitions
+  - `budget_usages`: Stores denormalized spending totals (updated by functions)
+- **Filtering**: Only expenses from `household_shared` wallets count toward budgets
+
+**📖 See [BUDGET_TESTING_GUIDE.md](BUDGET_TESTING_GUIDE.md) for complete testing instructions**
+
+### 2. Role-Based Access
 - Head of Household: Full access to all features
 - Members: Limited access based on permissions
 
-### 2. Offline Support
+### 3. Offline Support
 - Local caching with Firestore offline persistence
 - Automatic sync when online
 
-### 3. Multi-Currency
+### 4. Multi-Currency
 - Support for multiple currencies
 - Exchange rate handling for transfers
 
@@ -309,6 +343,23 @@ flutter build web --release
    flutter pub upgrade
    ```
 
+4. **Budget not updating after transaction**
+   - ✅ Verify Cloud Functions are deployed: `firebase functions:list`
+   - ✅ Check function logs: `firebase functions:log`
+   - ✅ Ensure Firebase project is on Blaze plan (Cloud Functions require it)
+   - ✅ Verify transaction uses `household_shared` wallet
+   - ✅ Check transaction has `actor_user_id` and `household_id` fields
+   - 📖 See [CLOUD_FUNCTIONS_SETUP.md](CLOUD_FUNCTIONS_SETUP.md) for details
+
+5. **Budget notifications not appearing**
+   - Check Firestore `budget_usages` collection for `last_alert_level_sent` field
+   - Verify `notifications` collection has new documents
+   - Check function logs for notification creation errors
+   ```bash
+   flutter doctor
+   flutter pub upgrade
+   ```
+
 ## Contributing
 
 1. Follow the existing code structure
@@ -327,6 +378,14 @@ For issues and questions:
 - Check Firebase Console for backend errors
 - Review Flutter logs: `flutter logs`
 - Check Firestore rules and indexes
+- **Budget issues**: See [CLOUD_FUNCTIONS_SETUP.md](CLOUD_FUNCTIONS_SETUP.md) and [BUDGET_TESTING_GUIDE.md](BUDGET_TESTING_GUIDE.md)
+
+## Documentation
+
+- **[CLOUD_FUNCTIONS_SETUP.md](CLOUD_FUNCTIONS_SETUP.md)** - How to deploy Cloud Functions for budget tracking
+- **[BUDGET_TESTING_GUIDE.md](BUDGET_TESTING_GUIDE.md)** - Complete testing guide for Budgets feature
+- **[IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)** - Goals and Bills feature implementation details
+- **[FIXES_SUMMARY.md](FIXES_SUMMARY.md)** - Remaining known issues
 
 ## Roadmap
 
