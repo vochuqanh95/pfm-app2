@@ -1,0 +1,327 @@
+Package file_picker:linux references file_picker:linux as the default plugin, but it does not provide an inline implementation.
+Ask the maintainers of file_picker to either avoid referencing a default implementation via `platforms: linux: default_package: file_picker` or add an inline implementation to file_picker via `platforms: linux:` `pluginClass` or `dartPluginClass`.
+
+Package file_picker:macos references file_picker:macos as the default plugin, but it does not provide an inline implementation.
+Ask the maintainers of file_picker to either avoid referencing a default implementation via `platforms: macos: default_package: file_picker` or add an inline implementation to file_picker via `platforms: macos:` `pluginClass` or `dartPluginClass`.
+
+Package file_picker:windows references file_picker:windows as the default plugin, but it does not provide an inline implementation.
+Ask the maintainers of file_picker to either avoid referencing a default implementation via `platforms: windows: default_package: file_picker` or add an inline implementation to file_picker via `platforms: windows:` `pluginClass` or `dartPluginClass`.
+
+Package file_picker:linux references file_picker:linux as the default plugin, but it does not provide an inline implementation.
+Ask the maintainers of file_picker to either avoid referencing a default implementation via `platforms: linux: default_package: file_picker` or add an inline implementation to file_picker via `platforms: linux:` `pluginClass` or `dartPluginClass`.
+
+Package file_picker:macos references file_picker:macos as the default plugin, but it does not provide an inline implementation.
+Ask the maintainers of file_picker to either avoid referencing a default implementation via `platforms: macos: default_package: file_picker` or add an inline implementation to file_picker via `platforms: macos:` `pluginClass` or `dartPluginClass`.
+
+Package file_picker:windows references file_picker:windows as the default plugin, but it does not provide an inline implementation.
+Ask the maintainers of file_picker to either avoid referencing a default implementation via `platforms: windows: default_package: file_picker` or add an inline implementation to file_picker via `platforms: windows:` `pluginClass` or `dartPluginClass`.
+
+Analyzing stitch_splash_screen...                               
+
+   info - Use 'const' with the constructor to improve performance - lib\core\theme\app_theme.dart:10:20 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\theme\app_theme.dart:21:20 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\theme\app_theme.dart:58:17 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\theme\app_theme.dart:78:23 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\theme\app_theme.dart:82:23 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\theme\app_theme.dart:90:33 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\theme\app_theme.dart:104:20 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\theme\app_theme.dart:153:23 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\theme\app_theme.dart:156:33 - prefer_const_constructors
+   info - The parameter name 'sum' matches a visible type name - lib\data\repositories\bill_repository.dart:180:43 - avoid_types_as_parameter_names
+   info - The parameter name 'sum' matches a visible type name - lib\data\repositories\debt_repository.dart:117:37 - avoid_types_as_parameter_names
+   info - The parameter name 'sum' matches a visible type name - lib\data\repositories\debt_repository.dart:137:37 - avoid_types_as_parameter_names
+   info - The parameter name 'sum' matches a visible type name - lib\data\repositories\transaction_repository.dart:158:44 - avoid_types_as_parameter_names
+   info - The parameter name 'sum' matches a visible type name - lib\data\repositories\transaction_repository.dart:172:44 - avoid_types_as_parameter_names
+   info - The parameter name 'sum' matches a visible type name - lib\data\repositories\wallet_repository.dart:114:39 - avoid_types_as_parameter_names
+warning - Unused import: 'wallet_provider.dart' - lib\presentation\providers\bill_provider.dart:4:8 - unused_import
+warning - Unused import: 'package:go_router/go_router.dart' - lib\presentation\screens\approval\approval_list_screen.dart:3:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\approval\approval_list_screen.dart:48:56 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\approval\approval_list_screen.dart:51:23 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\approval\approval_list_screen.dart:53:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\approval\approval_list_screen.dart:60:23 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\approval\approval_list_screen.dart:62:32 - prefer_const_constructors
+  error - The getter 'category' isn't defined for the type 'TransactionModel' - lib\presentation\screens\approval\approval_list_screen.dart:194:47 - undefined_getter
+  error - The getter 'description' isn't defined for the type 'TransactionModel' - lib\presentation\screens\approval\approval_list_screen.dart:205:34 - undefined_getter
+  error - The getter 'category' isn't defined for the type 'TransactionModel' - lib\presentation\screens\approval\approval_list_screen.dart:205:58 - undefined_getter
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\approval\approval_list_screen.dart:214:27 - prefer_const_constructors
+  error - The getter 'createdBy' isn't defined for the type 'TransactionModel' - lib\presentation\screens\approval\approval_list_screen.dart:221:54 - undefined_getter
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\approval\approval_list_screen.dart:222:36 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\approval\approval_list_screen.dart:245:30 - prefer_const_constructors
+  error - The getter 'description' isn't defined for the type 'TransactionModel' - lib\presentation\screens\approval\approval_list_screen.dart:254:26 - undefined_getter
+  error - The getter 'description' isn't defined for the type 'TransactionModel' - lib\presentation\screens\approval\approval_list_screen.dart:254:58 - undefined_getter
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\approval\approval_list_screen.dart:264:21 - prefer_const_constructors
+  error - The getter 'description' isn't defined for the type 'TransactionModel' - lib\presentation\screens\approval\approval_list_screen.dart:272:34 - undefined_getter
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\approval\approval_list_screen.dart:273:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\approval\approval_list_screen.dart:293:29 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\auth\login_screen.dart:65:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\auth\login_screen.dart:73:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\auth\login_screen.dart:82:56 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\auth\login_screen.dart:97:45 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\login_screen.dart:119:25 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\login_screen.dart:121:34 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\login_screen.dart:131:39 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\login_screen.dart:145:25 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\login_screen.dart:147:34 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\login_screen.dart:231:25 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\auth\login_screen.dart:233:37 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\login_screen.dart:234:29 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\login_screen.dart:240:29 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\login_screen.dart:242:38 - prefer_const_constructors
+  error - The method 'signUpWithEmail' isn't defined for the type 'AuthNotifier' - lib\presentation\screens\auth\sign_up_screen.dart:49:39 - undefined_method
+  error - This expression has a type of 'void' so its value can't be used - lib\presentation\screens\auth\sign_up_screen.dart:78:11 - use_of_void_result
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\sign_up_screen.dart:118:17 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\sign_up_screen.dart:120:26 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\sign_up_screen.dart:241:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\sign_up_screen.dart:242:27 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\sign_up_screen.dart:244:36 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\sign_up_screen.dart:290:17 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\auth\sign_up_screen.dart:291:29 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\sign_up_screen.dart:293:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\sign_up_screen.dart:295:30 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\sign_up_screen.dart:297:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\sign_up_screen.dart:329:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\sign_up_screen.dart:331:30 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\two_factor_screen.dart:140:15 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\two_factor_screen.dart:142:24 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\auth\two_factor_screen.dart:182:60 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\two_factor_screen.dart:238:19 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\auth\two_factor_screen.dart:240:28 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:86:21 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\bill\bill_detail_screen.dart:112:50 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:115:30 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:117:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:131:13 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:132:22 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:134:24 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\bill\bill_detail_screen.dart:136:29 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:145:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:146:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:147:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:148:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:149:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:157:13 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:158:22 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:160:24 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\bill\bill_detail_screen.dart:162:29 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:172:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:177:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:182:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:246:20 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\bill\bill_detail_screen.dart:285:40 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_detail_screen.dart:308:26 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\bill\bill_list_screen.dart:52:56 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_list_screen.dart:55:23 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_list_screen.dart:57:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_list_screen.dart:64:23 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_list_screen.dart:66:32 - prefer_const_constructors
+  error - The getter 'isPaid' isn't defined for the type 'BillModel' - lib\presentation\screens\bill\bill_list_screen.dart:122:14 - undefined_getter
+  error - The getter 'isPaid' isn't defined for the type 'BillModel' - lib\presentation\screens\bill\bill_list_screen.dart:131:14 - undefined_getter
+  error - The getter 'id' isn't defined for the type 'BillModel' - lib\presentation\screens\bill\bill_list_screen.dart:145:45 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\bill\bill_list_screen.dart:155:38 - deprecated_member_use
+  error - The getter 'isPaid' isn't defined for the type 'BillModel' - lib\presentation\screens\bill\bill_list_screen.dart:159:24 - undefined_getter
+  error - The getter 'isPaid' isn't defined for the type 'BillModel' - lib\presentation\screens\bill\bill_list_screen.dart:182:42 - undefined_getter
+  error - The getter 'isPaid' isn't defined for the type 'BillModel' - lib\presentation\screens\bill\bill_list_screen.dart:196:35 - undefined_getter
+  error - The getter 'isPaid' isn't defined for the type 'BillModel' - lib\presentation\screens\bill\bill_list_screen.dart:197:40 - undefined_getter
+  error - The getter 'isRecurring' isn't defined for the type 'BillModel' - lib\presentation\screens\bill\bill_list_screen.dart:200:28 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\bill\bill_list_screen.dart:205:47 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_list_screen.dart:208:30 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\bill\bill_list_screen.dart:210:32 - prefer_const_constructors
+  error - Undefined class 'BudgetPeriod' - lib\presentation\screens\budget\add_budget_screen.dart:22:3 - undefined_class
+  error - Undefined name 'BudgetPeriod' - lib\presentation\screens\budget\add_budget_screen.dart:22:26 - undefined_identifier
+  error - The named parameter 'budgetId' is required, but there's no corresponding argument - lib\presentation\screens\budget\add_budget_screen.dart:48:22 - missing_required_argument
+  error - The named parameter 'categoryId' is required, but there's no corresponding argument - lib\presentation\screens\budget\add_budget_screen.dart:48:22 - missing_required_argument
+  error - The named parameter 'endDate' is required, but there's no corresponding argument - lib\presentation\screens\budget\add_budget_screen.dart:48:22 - missing_required_argument
+  error - The named parameter 'startDate' is required, but there's no corresponding argument - lib\presentation\screens\budget\add_budget_screen.dart:48:22 - missing_required_argument
+  error - The named parameter 'id' isn't defined - lib\presentation\screens\budget\add_budget_screen.dart:49:9 - undefined_named_parameter
+  error - The named parameter 'name' isn't defined - lib\presentation\screens\budget\add_budget_screen.dart:50:9 - undefined_named_parameter
+  error - The named parameter 'period' isn't defined - lib\presentation\screens\budget\add_budget_screen.dart:52:9 - undefined_named_parameter
+  error - The named parameter 'category' isn't defined - lib\presentation\screens\budget\add_budget_screen.dart:53:9 - undefined_named_parameter
+  error - The argument type 'double?' can't be assigned to the parameter type 'double'.  - lib\presentation\screens\budget\add_budget_screen.dart:56:25 - argument_type_not_assignable
+  error - The named parameter 'createdAt' isn't defined - lib\presentation\screens\budget\add_budget_screen.dart:57:9 - undefined_named_parameter
+  error - The named parameter 'updatedAt' isn't defined - lib\presentation\screens\budget\add_budget_screen.dart:58:9 - undefined_named_parameter
+  error - The name 'BudgetPeriod' isn't a type, so it can't be used as a type argument - lib\presentation\screens\budget\add_budget_screen.dart:137:41 - non_type_as_type_argument
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\presentation\screens\budget\add_budget_screen.dart:138:19 - deprecated_member_use
+  error - Undefined name 'BudgetPeriod' - lib\presentation\screens\budget\add_budget_screen.dart:143:26 - undefined_identifier
+  error - The name 'BudgetPeriod' isn't a type, so it can't be used as a type argument - lib\presentation\screens\budget\add_budget_screen.dart:144:45 - non_type_as_type_argument
+  error - Undefined class 'BudgetPeriod' - lib\presentation\screens\budget\add_budget_screen.dart:149:31 - undefined_class
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\presentation\screens\budget\add_budget_screen.dart:161:19 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\add_budget_screen.dart:209:28 - prefer_const_constructors
+warning - Unused import: '../../../data/models/budget_model.dart' - lib\presentation\screens\budget\budget_detail_screen.dart:5:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\budget\budget_detail_screen.dart:107:66 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:113:21 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\budget\budget_detail_screen.dart:115:33 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:116:25 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:121:25 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:135:13 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:136:22 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:138:24 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\budget\budget_detail_screen.dart:140:29 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:149:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:150:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:151:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:152:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:186:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:191:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:196:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:229:18 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:269:20 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\budget\budget_detail_screen.dart:308:38 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_detail_screen.dart:331:26 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\budget\budget_list_screen.dart:52:56 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_list_screen.dart:55:23 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_list_screen.dart:57:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_list_screen.dart:64:23 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_list_screen.dart:66:32 - prefer_const_constructors
+   info - Use 'const' for final variables initialized to a constant value - lib\presentation\screens\budget\budget_list_screen.dart:118:5 - prefer_const_declarations
+warning - The left operand can't be null, so the right operand is never executed - lib\presentation\screens\budget\budget_list_screen.dart:121:65 - dead_null_aware_expression
+  error - The getter 'id' isn't defined for the type 'BudgetModel' - lib\presentation\screens\budget\budget_list_screen.dart:134:49 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\budget\budget_list_screen.dart:147:44 - deprecated_member_use
+  error - The getter 'name' isn't defined for the type 'BudgetModel' - lib\presentation\screens\budget\budget_list_screen.dart:162:34 - undefined_getter
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_list_screen.dart:171:34 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_list_screen.dart:192:32 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\budget\budget_list_screen.dart:206:60 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_list_screen.dart:217:28 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\budget\budget_list_screen.dart:224:28 - prefer_const_constructors
+  error - The getter 'category' isn't defined for the type 'BudgetModel' - lib\presentation\screens\budget\budget_list_screen.dart:232:26 - undefined_getter
+  error - The getter 'category' isn't defined for the type 'BudgetModel' - lib\presentation\screens\budget\budget_list_screen.dart:239:32 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\budget\budget_list_screen.dart:242:54 - deprecated_member_use
+  error - Target of URI doesn't exist: '../../providers/debt_provider.dart' - lib\presentation\screens\debt\debt_detail_screen.dart:6:8 - uri_does_not_exist
+  error - The method 'debtProvider' isn't defined for the type 'DebtDetailScreen' - lib\presentation\screens\debt\debt_detail_screen.dart:18:33 - undefined_method
+  error - Undefined name 'DebtType' - lib\presentation\screens\debt\debt_detail_screen.dart:29:41 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\debt\debt_detail_screen.dart:64:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\debt\debt_detail_screen.dart:67:38 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_detail_screen.dart:91:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_detail_screen.dart:107:32 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\debt\debt_detail_screen.dart:117:57 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_detail_screen.dart:125:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_detail_screen.dart:226:31 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_detail_screen.dart:227:40 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_detail_screen.dart:229:42 - prefer_const_constructors
+  error - Undefined name 'debtNotifierProvider' - lib\presentation\screens\debt\debt_detail_screen.dart:299:32 - undefined_identifier
+  error - The getter 'id' isn't defined for the type 'DebtModel' - lib\presentation\screens\debt\debt_detail_screen.dart:299:79 - undefined_getter
+  error - Undefined name 'debtNotifierProvider' - lib\presentation\screens\debt\debt_detail_screen.dart:369:32 - undefined_identifier
+  error - The getter 'id' isn't defined for the type 'DebtModel' - lib\presentation\screens\debt\debt_detail_screen.dart:370:28 - undefined_getter
+  error - Undefined name 'debtNotifierProvider' - lib\presentation\screens\debt\debt_detail_screen.dart:398:22 - undefined_identifier
+  error - The getter 'id' isn't defined for the type 'DebtModel' - lib\presentation\screens\debt\debt_detail_screen.dart:398:74 - undefined_getter
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_detail_screen.dart:441:24 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\debt\debt_detail_screen.dart:480:38 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_detail_screen.dart:483:18 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_detail_screen.dart:504:24 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_detail_screen.dart:514:18 - prefer_const_constructors
+  error - Target of URI doesn't exist: '../../providers/debt_provider.dart' - lib\presentation\screens\debt\debt_list_screen.dart:6:8 - uri_does_not_exist
+  error - The method 'userDebtsProvider' isn't defined for the type 'DebtListScreen' - lib\presentation\screens\debt\debt_list_screen.dart:24:38 - undefined_method
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\debt\debt_list_screen.dart:50:56 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_list_screen.dart:53:23 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_list_screen.dart:55:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_list_screen.dart:62:23 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_list_screen.dart:64:32 - prefer_const_constructors
+  error - Undefined name 'DebtType' - lib\presentation\screens\debt\debt_list_screen.dart:83:61 - undefined_identifier
+  error - Undefined name 'DebtType' - lib\presentation\screens\debt\debt_list_screen.dart:84:57 - undefined_identifier
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_list_screen.dart:115:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_list_screen.dart:117:30 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_list_screen.dart:130:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_list_screen.dart:132:30 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_list_screen.dart:189:28 - prefer_const_constructors
+  error - The getter 'type' isn't defined for the type 'DebtModel' - lib\presentation\screens\debt\debt_list_screen.dart:220:29 - undefined_getter
+  error - Undefined name 'DebtType' - lib\presentation\screens\debt\debt_list_screen.dart:220:37 - undefined_identifier
+  error - The getter 'totalAmount' isn't defined for the type 'DebtModel' - lib\presentation\screens\debt\debt_list_screen.dart:222:27 - undefined_getter
+  error - The getter 'totalAmount' isn't defined for the type 'DebtModel' - lib\presentation\screens\debt\debt_list_screen.dart:223:17 - undefined_getter
+  error - The getter 'remainingAmount' isn't defined for the type 'DebtModel' - lib\presentation\screens\debt\debt_list_screen.dart:223:36 - undefined_getter
+  error - The getter 'totalAmount' isn't defined for the type 'DebtModel' - lib\presentation\screens\debt\debt_list_screen.dart:223:60 - undefined_getter
+  error - The getter 'id' isn't defined for the type 'DebtModel' - lib\presentation\screens\debt\debt_list_screen.dart:230:45 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\debt\debt_list_screen.dart:243:36 - deprecated_member_use
+  error - The getter 'creditorDebtor' isn't defined for the type 'DebtModel' - lib\presentation\screens\debt\debt_list_screen.dart:266:32 - undefined_getter
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_list_screen.dart:267:34 - prefer_const_constructors
+  error - The getter 'remainingAmount' isn't defined for the type 'DebtModel' - lib\presentation\screens\debt\debt_list_screen.dart:279:35 - undefined_getter
+  error - The getter 'totalAmount' isn't defined for the type 'DebtModel' - lib\presentation\screens\debt\debt_list_screen.dart:287:38 - undefined_getter
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_list_screen.dart:288:32 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\debt\debt_list_screen.dart:302:42 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_list_screen.dart:313:28 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\debt\debt_list_screen.dart:321:30 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\goals\goals_list_screen.dart:66:33 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\goals\goals_list_screen.dart:87:24 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\goals\goals_list_screen.dart:113:24 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home\home_screen.dart:33:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home\home_screen.dart:34:30 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\home\home_screen.dart:36:35 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home\home_screen.dart:37:27 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home\home_screen.dart:39:36 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home\home_screen.dart:97:45 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home\home_screen.dart:103:26 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\home\home_screen.dart:104:31 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home\home_screen.dart:121:23 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\home\home_screen.dart:123:35 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home\home_screen.dart:124:27 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\home\home_screen.dart:125:39 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home\home_screen.dart:126:31 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home\home_screen.dart:128:40 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home\home_screen.dart:142:27 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\home\home_screen.dart:143:39 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home\home_screen.dart:144:31 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home\home_screen.dart:146:40 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\home\home_screen.dart:239:24 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home\home_screen.dart:273:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\home\home_screen.dart:275:20 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\create_household_screen.dart:78:17 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\create_household_screen.dart:80:26 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\household\create_household_screen.dart:108:51 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\create_household_screen.dart:114:23 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\household\create_household_screen.dart:115:35 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\create_household_screen.dart:122:27 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\create_household_screen.dart:124:36 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\create_household_screen.dart:181:22 - prefer_const_constructors
+  error - Undefined name 'currentHouseholdProvider' - lib\presentation\screens\household\member_management_screen.dart:24:42 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\household\member_management_screen.dart:47:56 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:50:23 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:52:32 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:59:23 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:61:32 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\household\member_management_screen.dart:86:60 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:89:40 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:110:46 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:127:19 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:129:28 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:166:21 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:168:30 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\household\member_management_screen.dart:180:64 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:181:36 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:242:13 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:244:22 - prefer_const_constructors
+  error - The method 'inviteMember' isn't defined for the type 'HouseholdNotifier' - lib\presentation\screens\household\member_management_screen.dart:267:68 - undefined_method
+  error - 2 positional arguments expected by 'removeMember', but 1 found - lib\presentation\screens\household\member_management_screen.dart:308:89 - not_enough_positional_arguments
+  error - The method 'cancelInvite' isn't defined for the type 'HouseholdNotifier' - lib\presentation\screens\household\member_management_screen.dart:350:68 - undefined_method
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\household\member_management_screen.dart:397:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\household\member_management_screen.dart:410:44 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:413:24 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:415:26 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\household\member_management_screen.dart:426:44 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:429:24 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\household\member_management_screen.dart:431:26 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\notification\notification_center_screen.dart:26:19 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\notification\notification_center_screen.dart:27:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\notification\notification_center_screen.dart:35:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\notification\notification_center_screen.dart:43:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\notification\notification_center_screen.dart:51:11 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\notification\notification_center_screen.dart:86:61 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\notification\notification_center_screen.dart:95:34 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\notification\notification_center_screen.dart:119:28 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\notification\notification_center_screen.dart:127:28 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\screens\onboarding\onboarding_screen.dart:140:33 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings\settings_screen.dart:26:19 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings\settings_screen.dart:36:19 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings\settings_screen.dart:37:28 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\settings\settings_screen.dart:39:33 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings\settings_screen.dart:48:25 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings\settings_screen.dart:50:34 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings\settings_screen.dart:220:22 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings\settings_screen.dart:222:24 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\presentation\screens\settings\settings_screen.dart:223:29 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings\settings_screen.dart:240:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings\settings_screen.dart:241:20 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings\settings_screen.dart:243:22 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\settings\settings_screen.dart:286:24 - prefer_const_constructors
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\presentation\screens\transaction\add_transaction_screen.dart:129:19 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\presentation\screens\transaction\add_transaction_screen.dart:156:19 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\presentation\screens\wallet\wallet_list_screen.dart:124:26 - prefer_const_constructors
+
+305 issues found. (ran in 3.4s)

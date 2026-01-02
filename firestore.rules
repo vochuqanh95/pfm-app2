@@ -1,0 +1,794 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ========== HELPER FUNCTIONS ==========
+
+    // Check if user is authenticated
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Get current user document
+    function getUser() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    // Get current user's role ("head" or "member")
+    function getUserRole() {
+      return getUser().data.role;
+    }
+
+    // Get current user's household ID
+    // User documents write BOTH householdId and household_id - check camelCase first
+    function getUserHouseholdId() {
+      let userData = getUser().data;
+      return userData.householdId != null ? userData.householdId :
+             (userData.household_id != null ? userData.household_id : null);
+    }
+
+    // Get household document (owner lookup)
+    function getHousehold(householdId) {
+      return get(/databases/$(database)/documents/households/$(householdId));
+    }
+
+    // Get current user's membership document (doc id format: {householdId}_{userId})
+    function getMembership(householdId) {
+      return get(/databases/$(database)/documents/household_members/$(householdId + '_' + request.auth.uid));
+    }
+
+    // Check if the membership doc exists and is active
+    function isActiveMembership(householdId) {
+      let membership = getMembership(householdId);
+      return membership.data != null && membership.data.status == 'active';
+    }
+
+    // Check ownership via household document or membership role
+    function isHouseholdOwner(householdId) {
+      let membership = getMembership(householdId);
+      return (membership.data != null &&
+              membership.data.status == 'active' &&
+              membership.data.role == 'owner') ||
+             (getHousehold(householdId).data.owner_user_id == request.auth.uid);
+    }
+
+    // Check if user is head/owner of the given household
+    function isHeadOfHousehold(householdId) {
+      return isSignedIn() && (
+             (getUserRole() == 'head' &&
+              getUserHouseholdId() == householdId) ||
+             isHouseholdOwner(householdId));
+    }
+
+    // Check if user is a member (head or regular member) of the given household
+    function isMemberOfHousehold(householdId) {
+      return isSignedIn() && (
+             getUserHouseholdId() == householdId ||
+             isActiveMembership(householdId) ||
+             isHouseholdOwner(householdId));
+    }
+
+    // ========== USERS COLLECTION ==========
+    match /users/{userId} {
+      // Anyone authenticated can read any user document (needed for member names)
+      allow read: if isSignedIn();
+      // Only the user themselves can write their own document
+      allow write: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    // ========== HOUSEHOLDS COLLECTION ==========
+    match /households/{householdId} {
+      // STEP 2: FIX FOR JOIN HOUSEHOLD FLOW
+      // Allow authenticated users to query households by invite_code for joining
+      // WITHOUT requiring existing membership
+
+      // Helper: Validate invite_code query structure to prevent enumeration
+      function isValidInviteCodeQuery() {
+        // Check that query filters by invite_code field
+        // Note: Firestore rules don't support checking specific where clauses directly
+        // Instead we rely on document-level checks + small query limit
+        return isSignedIn() &&
+               request.query.limit != null &&
+               request.query.limit <= 2 &&
+               resource.data.invite_code != null &&
+               resource.data.invite_code != '';
+      }
+
+      // Users can GET (single doc read) households they are members of
+      allow get: if isMemberOfHousehold(householdId);
+
+      // Users can LIST (query) households if:
+      // 1. They are members of that household (existing behavior for manage screens), OR
+      // 2. They are doing an invite_code lookup (for join flow)
+      //    - Must be authenticated
+      //    - Query must have small limit (≤2) to prevent enumeration
+      //    - Document must have a valid invite_code
+      allow list: if isMemberOfHousehold(householdId) || isValidInviteCodeQuery();
+
+      // Anyone authenticated can create a household
+      allow create: if isSignedIn();
+
+      // Only the household owner can update/delete
+      allow update, delete: if isHeadOfHousehold(householdId);
+    }
+
+    // ========== HOUSEHOLD MEMBERS COLLECTION ==========
+    match /household_members/{memberId} {
+      // CRITICAL FIX: Split read into get/list to match query patterns
+      // Collection stores membership documents with ID format: {householdId}_{userId}
+
+      // Helper: Check if user is reading their own membership document
+      // This BREAKS THE CIRCULAR DEPENDENCY in isMemberOfHousehold() -> getMembership()
+      function isOwnMembershipDoc() {
+        return resource.data.user_id == request.auth.uid;
+      }
+
+      // Helper: Check if memberId matches the user's expected doc ID for a household
+      function isSelfMemberDocId() {
+        // memberId should be {householdId}_{userId}
+        // We can't easily extract householdId from memberId in rules,
+        // but we can check if it ends with _{userId}
+        return memberId.matches('.*_' + request.auth.uid);
+      }
+
+      // Allow GET (single document read by ID) if:
+      // 1. User is reading their own membership doc (by doc ID pattern), OR
+      // 2. Document exists and belongs to user (by data check), OR
+      // 3. User is a member of the household this doc belongs to
+      // IMPORTANT: Use isSelfMemberDocId() first to avoid circular dependency for new docs
+      allow get: if isSignedIn() && (
+        isSelfMemberDocId() ||
+        isOwnMembershipDoc() ||
+        (resource.data.household_id != null && isMemberOfHousehold(resource.data.household_id))
+      );
+
+      // Allow LIST (queries) if:
+      // 1. Query filters by user_id == current user (for self-queries), OR
+      // 2. Query filters by household_id and user is head of that household (for Manage Members)
+      //
+      // IMPORTANT: This requires the query to have proper where clauses
+      // Note: Firestore rules can't directly inspect request.query.where in all cases,
+      // but we validate at the document level that returned docs match these constraints
+      allow list: if isSignedIn() && (
+        // Self-query: User listing their own memberships
+        // The query MUST filter by user_id, and docs must match
+        (resource.data.user_id != null &&
+         resource.data.user_id == request.auth.uid) ||
+
+        // Head query: Head listing members of their household
+        // The query MUST filter by household_id, and user must be head
+        (resource.data.household_id != null &&
+         isHeadOfHousehold(resource.data.household_id))
+      );
+
+      // Allow CREATE if:
+      // 1. Household owner is adding a member (for invite flow), OR
+      // 2. User is creating their own membership (for join-household flow via invite code)
+      //    Security constraints for self-join:
+      //    - memberId must match pattern: {householdId}_{userId}
+      //    - user_id in the document must match the authenticated user
+      //    - role must be 'member' (not 'owner' - prevents privilege escalation)
+      //    - status must be 'active'
+      allow create: if isSignedIn() && request.resource.data.household_id != null && (
+        // Owner can create any member (for managing invites)
+        isHeadOfHousehold(request.resource.data.household_id) ||
+        // User can create their own membership when joining via invite code
+        (request.resource.data.user_id == request.auth.uid &&
+         memberId == request.resource.data.household_id + '_' + request.auth.uid &&
+         request.resource.data.role == 'member' &&
+         request.resource.data.status == 'active')
+      );
+
+      // Allow UPDATE only by household owner (for changing roles, approving members)
+      allow update: if isSignedIn() &&
+                       request.resource.data.household_id != null &&
+                       isHeadOfHousehold(request.resource.data.household_id);
+
+      // Allow DELETE only by household owner (for removing members)
+      allow delete: if isSignedIn() &&
+                       resource.data.household_id != null &&
+                       isHeadOfHousehold(resource.data.household_id);
+    }
+
+    // ========== WALLETS COLLECTION ==========
+    match /wallets/{walletId} {
+      // Wallet helper functions
+      // IMPORTANT: Prefer snake_case (user_id, household_id) with camelCase fallback for old docs
+      function walletUserId() {
+        return resource.data.user_id != null
+          ? resource.data.user_id
+          : (resource.data.userId != null
+            ? resource.data.userId
+            : resource.data.owner_user_id);
+      }
+
+      function walletHouseholdId() {
+        return resource.data.household_id != null
+          ? resource.data.household_id
+          : resource.data.householdId;
+      }
+
+      function walletScope() {
+        return resource.data.scope;
+      }
+
+      // Allow GET (single document read)
+      // Check document-level permissions using helpers that fallback to camelCase
+      allow get: if isSignedIn() && (
+        // Personal wallets: only owner can see
+        (walletScope() == "personal" &&
+         walletUserId() == request.auth.uid) ||
+
+        // Member-private wallets: only owner within household
+        (walletScope() == "member_private" &&
+         walletHouseholdId() != null &&
+         isMemberOfHousehold(walletHouseholdId()) &&
+         walletUserId() == request.auth.uid) ||
+
+        // Household-shared wallets: any member of household can see
+        (walletScope() == "household_shared" &&
+         walletHouseholdId() != null &&
+         isMemberOfHousehold(walletHouseholdId()))
+      );
+
+      // Allow LIST (queries)
+      // For list queries, we rely on document-level filtering
+      // Queries use snake_case (user_id, household_id) to filter
+      // Rules check each returned document's permissions
+      allow list: if isSignedIn() && (
+        // Personal wallets: only owner can see
+        (walletScope() == "personal" &&
+         walletUserId() == request.auth.uid) ||
+
+        // Member-private wallets: only owner within household
+        (walletScope() == "member_private" &&
+         walletHouseholdId() != null &&
+         isMemberOfHousehold(walletHouseholdId()) &&
+         walletUserId() == request.auth.uid) ||
+
+        // Household-shared wallets: any member of household can see
+        (walletScope() == "household_shared" &&
+         walletHouseholdId() != null &&
+         isMemberOfHousehold(walletHouseholdId()))
+      );
+
+      // Allow CREATE if:
+      // 1. Personal wallet: user owns it AND no householdId
+      // 2. Household wallet: user is head of that household
+      // New wallets write both user_id+userId and household_id+householdId
+      allow create: if isSignedIn() && (
+        // Personal wallet: no household, user is owner (check snake_case first)
+        ((request.resource.data.user_id == request.auth.uid ||
+          request.resource.data.userId == request.auth.uid) &&
+         (request.resource.data.household_id == null || !('household_id' in request.resource.data)) &&
+         (request.resource.data.householdId == null || !('householdId' in request.resource.data))) ||
+        // Household wallet: only head can create (prefer snake_case)
+        ((request.resource.data.household_id != null || request.resource.data.householdId != null) &&
+         isHeadOfHousehold(request.resource.data.household_id != null ?
+           request.resource.data.household_id : request.resource.data.householdId))
+      );
+
+      // Allow UPDATE if:
+      // 1. Personal or member_private wallets: owner can update (for balance changes)
+      // 2. Household-shared wallets: any member can update (for transactions)
+      allow update: if isSignedIn() && (
+        // Personal or member_private owned by this user
+        ((walletScope() == "personal" || walletScope() == "member_private") &&
+         walletUserId() == request.auth.uid) ||
+
+        // Household-shared: any member can spend (update balance via transactions)
+        (walletScope() == "household_shared" &&
+         walletHouseholdId() != null &&
+         isMemberOfHousehold(walletHouseholdId()))
+      );
+
+      // Allow DELETE if:
+      // 1. User owns the wallet (personal or member_private)
+      // 2. User is head of wallet's household
+      allow delete: if isSignedIn() && (
+        walletUserId() == request.auth.uid ||
+        (walletHouseholdId() != null && isHeadOfHousehold(walletHouseholdId()))
+      );
+    }
+
+    // ========== TRANSACTIONS COLLECTION ==========
+    match /transactions/{transactionId} {
+      // Transaction documents use ONLY snake_case
+      function txnHouseholdId() {
+        return resource.data.household_id;
+      }
+
+      // Transaction documents use ONLY snake_case
+      function txnUserId() {
+        return resource.data.user_id;
+      }
+
+      // Allow READ if:
+      // 1. User created the transaction (user_id matches), OR
+      // 2. Transaction belongs to user's household
+      allow read: if isSignedIn() && (
+        txnUserId() == request.auth.uid ||
+        (txnHouseholdId() != null && isMemberOfHousehold(txnHouseholdId()))
+      );
+
+      // Allow CREATE if:
+      // 1. User is authenticated
+      // 2. user_id matches request.auth.uid
+      // 3. actor_user_id (if present) matches request.auth.uid (prevent spoofing)
+      allow create: if isSignedIn() &&
+        request.resource.data.user_id == request.auth.uid &&
+        (!('actor_user_id' in request.resource.data) ||
+         request.resource.data.actor_user_id == request.auth.uid);
+
+      // Allow UPDATE if:
+      // 1. User owns the transaction (user_id), OR
+      // 2. User is head of transaction's household
+      allow update: if isSignedIn() && (
+        txnUserId() == request.auth.uid ||
+        (txnHouseholdId() != null && isHeadOfHousehold(txnHouseholdId()))
+      );
+
+      // Allow DELETE if:
+      // 1. User owns the transaction (user_id), OR
+      // 2. User is head of transaction's household
+      allow delete: if isSignedIn() && (
+        txnUserId() == request.auth.uid ||
+        (txnHouseholdId() != null && isHeadOfHousehold(txnHouseholdId()))
+      );
+    }
+
+    // ========== GOALS COLLECTION ==========
+    match /goals/{goalId} {
+      // Goal documents use ONLY snake_case
+      function goalHouseholdId() {
+        return resource.data.household_id;
+      }
+
+      // Goal documents use ONLY snake_case
+      function goalUserId() {
+        return resource.data.user_id;
+      }
+
+      // Allow READ if:
+      // 1. User owns the goal (user_id), OR
+      // 2. Goal belongs to user's household
+      allow read: if isSignedIn() && (
+        goalUserId() == request.auth.uid ||
+        (goalHouseholdId() != null && isMemberOfHousehold(goalHouseholdId()))
+      );
+
+      // Allow CREATE if:
+      // 1. User creates their own goal, OR
+      // 2. User is head creating a household goal
+      allow create: if isSignedIn() && (
+        request.resource.data.user_id == request.auth.uid ||
+        (request.resource.data.household_id != null &&
+         isHeadOfHousehold(request.resource.data.household_id))
+      );
+
+      // Allow UPDATE if:
+      // 1. User owns the goal (for personal goals)
+      // 2. User is member of goal's household (for contributions)
+      allow update: if isSignedIn() && (
+        goalUserId() == request.auth.uid ||
+        (goalHouseholdId() != null && isMemberOfHousehold(goalHouseholdId()))
+      );
+
+      // Allow DELETE if:
+      // 1. User owns the goal, OR
+      // 2. User is head of goal's household
+      allow delete: if isSignedIn() && (
+        goalUserId() == request.auth.uid ||
+        (goalHouseholdId() != null && isHeadOfHousehold(goalHouseholdId()))
+      );
+
+      // ========== CONTRIBUTIONS SUBCOLLECTION ==========
+      match /contributions/{contributionId} {
+        // Allow READ if user is member of the goal's household
+        allow read: if isSignedIn() && (
+          get(/databases/$(database)/documents/goals/$(goalId)).data.user_id == request.auth.uid ||
+          (get(/databases/$(database)/documents/goals/$(goalId)).data.household_id != null &&
+           isMemberOfHousehold(get(/databases/$(database)/documents/goals/$(goalId)).data.household_id))
+        );
+
+        // Allow CREATE if authenticated and user_id matches (prevent spoofing)
+        allow create: if isSignedIn() &&
+          request.resource.data.user_id == request.auth.uid;
+
+        // Allow UPDATE/DELETE by contribution creator or household head
+        allow update, delete: if isSignedIn() && (
+          resource.data.user_id == request.auth.uid ||
+          (get(/databases/$(database)/documents/goals/$(goalId)).data.household_id != null &&
+           isHeadOfHousehold(get(/databases/$(database)/documents/goals/$(goalId)).data.household_id))
+        );
+      }
+    }
+
+    // ========== BILLS COLLECTION ==========
+    match /bills/{billId} {
+      // Bill documents use ONLY snake_case
+      function billHouseholdId() {
+        return resource.data.household_id;
+      }
+
+      // Bill documents use ONLY snake_case
+      function billUserId() {
+        return resource.data.user_id;
+      }
+
+      // Bill documents use ONLY snake_case
+      function billResponsibleUserId() {
+        return resource.data.responsible_user_id;
+      }
+
+      // Cache user data to avoid multiple get() calls
+      function cachedUserData() {
+        return getUser().data;
+      }
+
+      function cachedUserRole() {
+        return cachedUserData().role;
+      }
+
+      function cachedUserHouseholdId() {
+        let userData = cachedUserData();
+        return userData.householdId != null ? userData.householdId :
+               (userData.household_id != null ? userData.household_id : null);
+      }
+
+      // Allow READ if:
+      // 1. User owns the bill (user_id), OR
+      // 2. User is responsible for the bill (responsible_user_id), OR
+      // 3. Bill belongs to user's household
+      allow read: if isSignedIn() && (
+        billUserId() == request.auth.uid ||
+        billResponsibleUserId() == request.auth.uid ||
+        (billHouseholdId() != null && cachedUserHouseholdId() == billHouseholdId())
+      );
+
+      // Allow CREATE if:
+      // 1. User creates their own bill, OR
+      // 2. User is head creating household bill
+      allow create: if isSignedIn() && (
+        request.resource.data.user_id == request.auth.uid ||
+        (request.resource.data.household_id != null &&
+         isHeadOfHousehold(request.resource.data.household_id))
+      );
+
+      // Allow UPDATE if:
+      // 1. User owns the bill (user_id), OR
+      // 2. User is responsible (can mark as paid), OR
+      // 3. User is head of bill's household
+      allow update: if isSignedIn() && (
+        billUserId() == request.auth.uid ||
+        billResponsibleUserId() == request.auth.uid ||
+        (billHouseholdId() != null &&
+         cachedUserHouseholdId() == billHouseholdId() &&
+         cachedUserRole() == 'head')
+      );
+
+      // Allow DELETE if:
+      // 1. User owns the bill, OR
+      // 2. User is head of bill's household
+      allow delete: if isSignedIn() && (
+        billUserId() == request.auth.uid ||
+        (billHouseholdId() != null &&
+         cachedUserHouseholdId() == billHouseholdId() &&
+         cachedUserRole() == 'head')
+      );
+    }
+
+    // ========== DEBTS COLLECTION ==========
+    match /debts/{debtId} {
+      // Debt documents use ONLY snake_case
+      function debtHouseholdId() {
+        return resource.data.household_id;
+      }
+
+      // Debt documents use ONLY snake_case
+      function debtUserId() {
+        return resource.data.user_id;
+      }
+
+      // Cache user data to avoid multiple get() calls
+      function cachedUserData() {
+        return getUser().data;
+      }
+
+      function cachedUserRole() {
+        return cachedUserData().role;
+      }
+
+      function cachedUserHouseholdId() {
+        let userData = cachedUserData();
+        return userData.householdId != null ? userData.householdId :
+               (userData.household_id != null ? userData.household_id : null);
+      }
+
+      // Allow READ if:
+      // 1. User owns the debt, OR
+      // 2. Debt belongs to user's household
+      allow read: if isSignedIn() && (
+        debtUserId() == request.auth.uid ||
+        (debtHouseholdId() != null && cachedUserHouseholdId() == debtHouseholdId())
+      );
+
+      // Allow CREATE if:
+      // 1. User creates their own debt, OR
+      // 2. User is head creating household debt
+      allow create: if isSignedIn() && (
+        request.resource.data.user_id == request.auth.uid ||
+        (request.resource.data.household_id != null &&
+         isHeadOfHousehold(request.resource.data.household_id))
+      );
+
+      // Allow UPDATE if:
+      // 1. User owns the debt, OR
+      // 2. User is member of debt's household (for payments)
+      allow update: if isSignedIn() && (
+        debtUserId() == request.auth.uid ||
+        (debtHouseholdId() != null && cachedUserHouseholdId() == debtHouseholdId())
+      );
+
+      // Allow DELETE if:
+      // 1. User owns the debt, OR
+      // 2. User is head of debt's household
+      allow delete: if isSignedIn() && (
+        debtUserId() == request.auth.uid ||
+        (debtHouseholdId() != null &&
+         cachedUserHouseholdId() == debtHouseholdId() &&
+         cachedUserRole() == 'head')
+      );
+    }
+
+    // ========== DEBT PAYMENTS SUBCOLLECTION ==========
+    // Allows viewing and recording payments for a debt,
+    // but only if the user is the debt owner OR a member/head of the household.
+    match /debts/{debtId}/payments/{paymentId} {
+
+      // Load parent debt to check ownership & household
+      function parentDebt() {
+        return get(/databases/$(database)/documents/debts/$(debtId));
+      }
+
+      function parentDebtUserId() {
+        let d = parentDebt().data;
+        return d.user_id != null
+          ? d.user_id
+          : (d.userId != null ? d.userId : d.owner_user_id);
+      }
+
+      function parentDebtHouseholdId() {
+        let d = parentDebt().data;
+        return d.household_id != null
+          ? d.household_id
+          : d.householdId;
+      }
+
+      // Who can read payments?
+      function canReadPayment() {
+        return isSignedIn() && (
+          // Debt owner
+          parentDebtUserId() == request.auth.uid ||
+          // Any member of the household that owns the debt
+          (parentDebtHouseholdId() != null &&
+           isMemberOfHousehold(parentDebtHouseholdId()))
+        );
+      }
+
+      // Who can create/update/delete payments?
+      function canWritePayment() {
+        return isSignedIn() && (
+          // Debt owner
+          parentDebtUserId() == request.auth.uid ||
+          // Head of household
+          (parentDebtHouseholdId() != null &&
+           isHeadOfHousehold(parentDebtHouseholdId()))
+        );
+      }
+
+      // READ: used by Payment History stream on Debt Detail
+      allow get, list: if canReadPayment();
+
+      // WRITE: used by Record Payment & Mark as Fully Paid
+      allow create: if canWritePayment();
+      allow update, delete: if canWritePayment();
+    }
+
+    // ========== BUDGETS COLLECTION ==========
+    match /budgets/{budgetId} {
+      // Budget documents use ONLY snake_case
+      function budgetHouseholdId() {
+        return resource.data.household_id;
+      }
+
+      // Budget documents use ONLY snake_case
+      function budgetUserId() {
+        return resource.data.user_id;
+      }
+
+      // [BUDGET_RULES] READ:
+      // - Head can read budgets in their household
+      // - Member can read family budgets in their household
+      // - Member can read their own member budgets only
+      allow get, list: if isSignedIn() && (
+        (budgetHouseholdId() != null && isHeadOfHousehold(budgetHouseholdId())) ||
+        (resource.data.budget_type == 'family' &&
+         budgetHouseholdId() != null &&
+         isMemberOfHousehold(budgetHouseholdId())) ||
+        (resource.data.member_user_id != null &&
+         resource.data.member_user_id == request.auth.uid)
+      );
+
+      // [BUDGET_RULES] WRITE:
+      // - Only head can create/update/delete budgets in their household
+      allow create: if isSignedIn() &&
+        request.resource.data.household_id != null &&
+        isHeadOfHousehold(request.resource.data.household_id);
+
+      allow update, delete: if isSignedIn() &&
+        budgetHouseholdId() != null &&
+        isHeadOfHousehold(budgetHouseholdId());
+    }
+
+    // ========== BUDGET USAGES COLLECTION ==========
+    match /budget_usages/{usageId} {
+      // Helper to get household_id from usage doc
+      function usageHouseholdId() {
+        return resource.data.household_id;
+      }
+
+      // [BUDGET_RULES] USAGE READ - FIXED to avoid permission-denied for members:
+      // - Head: all usages in household
+      // - Member: their own member usage WITHOUT isMemberOfHousehold check (safe because client cannot write)
+      // - Member: family usage (member_user_id == null) only if they are household member
+      allow read: if isSignedIn() && (
+        // Head can read ANY usage where household_id matches their household
+        (usageHouseholdId() != null &&
+         isHeadOfHousehold(usageHouseholdId())) ||
+        // Member can read their own member usage (NO isMemberOfHousehold check to avoid recursion/denial)
+        (resource.data.member_user_id != null &&
+         resource.data.member_user_id == request.auth.uid) ||
+        // Member can read family usage (null member_user_id) in their household
+        (resource.data.member_user_id == null &&
+         usageHouseholdId() != null &&
+         isMemberOfHousehold(usageHouseholdId()))
+      );
+      // Client cannot write usage - Cloud Functions only
+      allow create, update, delete: if false;
+    }
+
+    // ========== CATEGORIES COLLECTION ==========
+    // CRITICAL FIX: Support both snake_case (new) and camelCase (legacy) fields
+    // to prevent PERMISSION_DENIED on old documents
+    match /categories/{categoryId} {
+      function categoryScope() {
+        return resource.data.scope;
+      }
+
+      // Support both user_id (snake_case, preferred) and userId (camelCase, legacy)
+      function categoryUserId() {
+        return resource.data.user_id != null
+          ? resource.data.user_id
+          : resource.data.userId;
+      }
+
+      // Support both household_id (snake_case, preferred) and householdId (camelCase, legacy)
+      function categoryHouseholdId() {
+        return resource.data.household_id != null
+          ? resource.data.household_id
+          : resource.data.householdId;
+      }
+
+      // Check if category is archived (default to false if field missing)
+      function isArchived() {
+        return resource.data.archived == true;
+      }
+
+      function isCategoryPersonal() {
+        return categoryScope() == 'personal' &&
+               categoryUserId() == request.auth.uid;
+      }
+
+      function isCategoryHousehold() {
+        return categoryScope() == 'household' &&
+               categoryHouseholdId() != null &&
+               isMemberOfHousehold(categoryHouseholdId());
+      }
+
+      function isHouseholdHeadForCategory() {
+        return categoryScope() == 'household' &&
+               categoryHouseholdId() != null &&
+               isHeadOfHousehold(categoryHouseholdId());
+      }
+
+      // READ (GET + LIST):
+      // - Personal categories: owner only
+      // - Household categories: any household member
+      // - Built-in categories: any signed-in user
+      // Note: Archived categories are filtered at query level (archived == false),
+      // but we allow reading if they somehow appear in results
+      allow get, list: if isSignedIn() && (
+        (categoryScope() == 'personal' &&
+         categoryUserId() == request.auth.uid) ||
+        (categoryScope() == 'household' &&
+         categoryHouseholdId() != null &&
+         isMemberOfHousehold(categoryHouseholdId())) ||
+        (categoryScope() == 'built_in')
+      );
+
+      // CREATE:
+      // - Personal: owner (must set user_id)
+      // - Household: head only (must set household_id)
+      // New docs should always use snake_case (user_id, household_id)
+      allow create: if isSignedIn() && (
+        (request.resource.data.scope == 'personal' &&
+         request.resource.data.user_id == request.auth.uid) ||
+        (request.resource.data.scope == 'household' &&
+         request.resource.data.household_id != null &&
+         isHeadOfHousehold(request.resource.data.household_id))
+      );
+
+      // UPDATE:
+      // - Personal: owner
+      // - Household: head
+      // DELETE: blocked; use archived flag instead
+      allow update: if isSignedIn() && (
+        (categoryScope() == 'personal' &&
+         categoryUserId() == request.auth.uid) ||
+        isHouseholdHeadForCategory()
+      );
+      allow delete: if false;
+    }
+
+    // ========== NOTIFICATIONS COLLECTION ==========
+    match /notifications/{notificationId} {
+      // Users can only read their own notifications
+      allow read: if isSignedIn() && resource.data.user_id == request.auth.uid;
+
+      // Allow create for authenticated users targeting themselves
+      allow create: if isSignedIn() && request.resource.data.user_id == request.auth.uid;
+
+      // Users can update/delete their own notifications
+      allow update, delete: if isSignedIn() && resource.data.user_id == request.auth.uid;
+    }
+
+    // ========== RECURRING RULES COLLECTION ==========
+    match /recurring_rules/{ruleId} {
+      // Get rule's household ID
+      function ruleHouseholdId() {
+        return 'household_id' in resource.data ? resource.data.household_id : null;
+      }
+
+      // Get rule's user ID
+      function ruleUserId() {
+        return resource.data.user_id;
+      }
+
+      // Allow READ if:
+      // 1. User owns the rule, OR
+      // 2. Rule belongs to user's household
+      allow read: if isSignedIn() && (
+        ruleUserId() == request.auth.uid ||
+        (ruleHouseholdId() != null && isMemberOfHousehold(ruleHouseholdId()))
+      );
+
+      // Allow CREATE by authenticated users
+      allow create: if isSignedIn() && request.resource.data.user_id == request.auth.uid;
+
+      // Allow UPDATE/DELETE if:
+      // 1. User owns the rule, OR
+      // 2. User is head of rule's household
+      allow update, delete: if isSignedIn() && (
+        ruleUserId() == request.auth.uid ||
+        (ruleHouseholdId() != null && isHeadOfHousehold(ruleHouseholdId()))
+      );
+    }
+
+    // ========== DEFAULT FALLBACK ==========
+    // Deny all other access by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

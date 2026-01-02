@@ -1,0 +1,16 @@
+{
+  "@@locale": "en",
+  "appTitle": "Family Wealth",
+  "settingsTitle": "Settings",
+  "settingsLanguage": "Language",
+  "settingsCurrency": "Currency",
+  "languageEnglish": "English",
+  "languageVietnamese": "Vietnamese",
+  "currencyUsd": "US Dollar",
+  "currencyVnd": "Vietnamese Dong",
+  "chooseLanguage": "Choose language",
+  "chooseCurrency": "Choose currency",
+  "languageUpdatedRestartHint": "Language updated. Some screens may need reopening to fully refresh.",
+  "currencyUpdated": "Currency updated",
+  "sharedLabel": "Shared"
+}

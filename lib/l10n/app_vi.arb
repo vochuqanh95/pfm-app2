@@ -1,0 +1,16 @@
+{
+  "@@locale": "vi",
+  "appTitle": "Family Wealth",
+  "settingsTitle": "Cài đặt",
+  "settingsLanguage": "Ngôn ngữ",
+  "settingsCurrency": "Tiền tệ",
+  "languageEnglish": "Tiếng Anh",
+  "languageVietnamese": "Tiếng Việt",
+  "currencyUsd": "Đô la Mỹ",
+  "currencyVnd": "Việt Nam Đồng",
+  "chooseLanguage": "Chọn ngôn ngữ",
+  "chooseCurrency": "Chọn tiền tệ",
+  "languageUpdatedRestartHint": "Đã cập nhật ngôn ngữ. Một số màn có thể cần mở lại để áp dụng hoàn toàn.",
+  "currencyUpdated": "Đã cập nhật tiền tệ",
+  "sharedLabel": "Chia sẻ"
+}

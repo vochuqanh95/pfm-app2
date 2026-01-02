@@ -1,0 +1,350 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "wallet_id", "mode": "ASCENDING" },
+        { "fieldPath": "created_at", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "wallet_id", "mode": "ASCENDING" },
+        { "fieldPath": "date", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "wallet_id", "mode": "ASCENDING" },
+        { "fieldPath": "category_id", "mode": "ASCENDING" },
+        { "fieldPath": "date", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "wallet_id", "mode": "ASCENDING" },
+        { "fieldPath": "type", "mode": "ASCENDING" },
+        { "fieldPath": "date", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "household_id", "mode": "ASCENDING" },
+        { "fieldPath": "created_at", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "mode": "ASCENDING" },
+        { "fieldPath": "created_at", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "mode": "ASCENDING" },
+        { "fieldPath": "household_id", "mode": "ASCENDING" },
+        { "fieldPath": "created_at", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "actor_user_id", "mode": "ASCENDING" },
+        { "fieldPath": "household_id", "mode": "ASCENDING" },
+        { "fieldPath": "created_at", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "actor_user_id", "mode": "ASCENDING" },
+        { "fieldPath": "type", "mode": "ASCENDING" },
+        { "fieldPath": "created_at", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "goal_id", "mode": "ASCENDING" },
+        { "fieldPath": "created_at", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "mode": "ASCENDING" },
+        { "fieldPath": "date", "mode": "ASCENDING" },
+        { "fieldPath": "__name__", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "household_id", "mode": "ASCENDING" },
+        { "fieldPath": "date", "mode": "ASCENDING" },
+        { "fieldPath": "__name__", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "recurring_rules",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "walletId", "mode": "ASCENDING" },
+        { "fieldPath": "nextDate", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "recurring_rules",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "walletId", "mode": "ASCENDING" },
+        { "fieldPath": "isActive", "mode": "ASCENDING" },
+        { "fieldPath": "nextDate", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "recurring_rules",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "household_id", "mode": "ASCENDING" },
+        { "fieldPath": "is_active", "mode": "ASCENDING" },
+        { "fieldPath": "next_date", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "recurring_rules",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "mode": "ASCENDING" },
+        { "fieldPath": "is_active", "mode": "ASCENDING" },
+        { "fieldPath": "next_date", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "bills",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "household_id", "mode": "ASCENDING" },
+        { "fieldPath": "due_date", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "bills",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "mode": "ASCENDING" },
+        { "fieldPath": "due_date", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "bills",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "mode": "ASCENDING" },
+        { "fieldPath": "user_id", "mode": "ASCENDING" },
+        { "fieldPath": "due_date", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "bills",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "mode": "ASCENDING" },
+        { "fieldPath": "responsible_user_id", "mode": "ASCENDING" },
+        { "fieldPath": "due_date", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "bills",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "mode": "ASCENDING" },
+        { "fieldPath": "due_date", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "bills",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "mode": "ASCENDING" },
+        { "fieldPath": "household_id", "mode": "ASCENDING" },
+        { "fieldPath": "due_date", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "bills",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "responsible_user_id", "mode": "ASCENDING" },
+        { "fieldPath": "due_date", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "bills",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "responsible_user_id", "mode": "ASCENDING" },
+        { "fieldPath": "household_id", "mode": "ASCENDING" },
+        { "fieldPath": "due_date", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "bills",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "household_id", "mode": "ASCENDING" },
+        { "fieldPath": "status", "mode": "ASCENDING" },
+        { "fieldPath": "due_date", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "bills",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "scope", "mode": "ASCENDING" },
+        { "fieldPath": "household_id", "mode": "ASCENDING" },
+        { "fieldPath": "due_date", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "debts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "mode": "ASCENDING" },
+        { "fieldPath": "householdId", "mode": "ASCENDING" },
+        { "fieldPath": "dueDate", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "debts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "householdId", "mode": "ASCENDING" },
+        { "fieldPath": "dueDate", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "debts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "household_id", "order": "ASCENDING" },
+        { "fieldPath": "due_date", "order": "ASCENDING" },
+        { "fieldPath": "__name__", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "debts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "mode": "ASCENDING" },
+        { "fieldPath": "dueDate", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "debts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "order": "ASCENDING" },
+        { "fieldPath": "due_date", "order": "ASCENDING" },
+        { "fieldPath": "__name__", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "goals",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "mode": "ASCENDING" },
+        { "fieldPath": "householdId", "mode": "ASCENDING" },
+        { "fieldPath": "deadline", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "goals",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "householdId", "mode": "ASCENDING" },
+        { "fieldPath": "deadline", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "goals",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "mode": "ASCENDING" },
+        { "fieldPath": "deadline", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "goals",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "household_id", "order": "ASCENDING" },
+        { "fieldPath": "scope", "order": "ASCENDING" },
+        { "fieldPath": "deadline", "order": "ASCENDING" },
+        { "fieldPath": "__name__", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "goals",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "user_id", "order": "ASCENDING" },
+        { "fieldPath": "scope", "order": "ASCENDING" },
+        { "fieldPath": "deadline", "order": "ASCENDING" },
+        { "fieldPath": "__name__", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "notifications",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "mode": "ASCENDING" },
+        { "fieldPath": "sentAt", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "notifications",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "mode": "ASCENDING" },
+        { "fieldPath": "readStatus", "mode": "ASCENDING" },
+        { "fieldPath": "sentAt", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "wallets",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "householdId", "mode": "ASCENDING" },
+        { "fieldPath": "archived", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "wallets",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "mode": "ASCENDING" },
+        { "fieldPath": "archived", "mode": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

@@ -1,0 +1,114 @@
+name: personal_finance_management
+description: A comprehensive Personal Finance Management app for individuals and households
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # Firebase
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.3
+  cloud_firestore: ^4.13.6
+  firebase_storage: ^11.5.6
+
+  # State Management
+  provider: ^6.1.1
+  riverpod: ^2.4.9
+  flutter_riverpod: ^2.4.9
+
+  # UI Components
+  cupertino_icons: ^1.0.2
+  google_fonts: ^6.1.0
+  flutter_svg: ^2.0.9
+  cached_network_image: ^3.3.1
+  shimmer: ^3.0.0
+
+  # Charts & Data Visualization
+  fl_chart: ^0.66.0
+  syncfusion_flutter_charts: ^32.1.19
+
+  # Utils
+  intl: ^0.20.2
+  uuid: ^4.2.2
+  shared_preferences: ^2.2.2
+  connectivity_plus: ^5.0.2
+
+  # Image & File
+  image_picker: ^1.0.7
+  file_picker: ^10.3.7 # ✅ chỉ còn 1 dòng này
+  path_provider: ^2.1.2
+  share_plus: ^7.2.1
+  open_filex: ^4.3.4
+
+  # OCR
+  #google_ml_kit: ^0.16.3
+
+  # Google Sign-In
+  google_sign_in: ^6.2.1
+
+  # Export/Import
+  csv: ^5.1.1
+  excel: ^4.0.2
+
+  # Navigation
+  go_router: ^13.0.0
+
+  # Validation
+  email_validator: ^2.1.17
+
+  # Animations
+  lottie: ^3.0.0
+
+  # PIN Code
+  pinput: ^3.0.1
+
+  equatable: ^2.0.5
+  # Date & Time
+  calendar_date_picker2: ^0.5.3
+
+  # Permissions
+  permission_handler: ^11.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  # This is our main icon file (circular logo in a square PNG).
+  image_path: "assets/branding/app_icon.png"
+
+  # Android adaptive icon configuration
+  min_sdk_android: 23
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/branding/app_icon.png"
+
+  # iOS: remove alpha to avoid black background issues
+  remove_alpha_ios: false
+
+flutter:
+  generate: true
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/animations/
+    - assets/icons/
+    - assets/branding/app_icon.png
+
+  # Fonts are loaded via google_fonts package instead of local assets
+  # This eliminates the need for font files in assets/fonts/
+# APP ICON GENERATION
+# After changing assets/branding/app_icon.png, run:
+#   flutter pub get
+#   flutter pub run flutter_launcher_icons:main

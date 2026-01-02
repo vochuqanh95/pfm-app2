@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "242674066973",
+    "project_id": "personal-finance-management1",
+    "storage_bucket": "personal-finance-management1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242674066973:android:ebf84db16559ced8b708f4",
+        "android_client_info": {
+          "package_name": "com.example.personal_finance_management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242674066973-t3sufa3o9a2altnu03r5cuke662gacu9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.personal_finance_management",
+            "certificate_hash": "dab8942d76935b83590d01f320365748874e4e25"
+          }
+        },
+        {
+          "client_id": "242674066973-jc7gq6udnt59hotpigsg610mral8sfsf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRLMsVC7H8cOxxriwl7aPe2HVRvGXyHSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242674066973-jc7gq6udnt59hotpigsg610mral8sfsf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242674066973:android:8463f9288ae7070bb708f4",
+        "android_client_info": {
+          "package_name": "com.pfm.app2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242674066973-jc7gq6udnt59hotpigsg610mral8sfsf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRLMsVC7H8cOxxriwl7aPe2HVRvGXyHSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242674066973-jc7gq6udnt59hotpigsg610mral8sfsf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
