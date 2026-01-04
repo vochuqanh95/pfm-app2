@@ -1,17 +1,19 @@
+// Import thư viện Firestore để làm việc với database
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-/// Model for debt payment records
-/// Stored in subcollection: debts/{debtId}/payments/{paymentId}
+// Model cho bản ghi thanh toán khoản nợ
+// Được lưu trong subcollection: debts/{debtId}/payments/{paymentId}
 class DebtPaymentModel {
-  final String paymentId;
-  final String debtId;
-  final String userId;
-  final String? walletId; // Nullable - payment may not be from a wallet
-  final double amount;
-  final DateTime date;
-  final String? note;
-  final DateTime createdAt;
+  final String paymentId; // ID duy nhất của khoản thanh toán
+  final String debtId; // ID của khoản nợ
+  final String userId; // ID của user thực hiện thanh toán
+  final String? walletId; // ID của ví sử dụng (có thể null - thanh toán không qua ví)
+  final double amount; // Số tiền thanh toán
+  final DateTime date; // Ngày thực hiện thanh toán
+  final String? note; // Ghi chú về khoản thanh toán (có thể null)
+  final DateTime createdAt; // Thời gian tạo bản ghi
 
+  // Constructor khởi tạo DebtPaymentModel
   DebtPaymentModel({
     required this.paymentId,
     required this.debtId,
@@ -23,36 +25,36 @@ class DebtPaymentModel {
     required this.createdAt,
   });
 
-  /// Create from Firestore document
+  // Tạo DebtPaymentModel từ Firestore document
   factory DebtPaymentModel.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
+    final data = doc.data() as Map<String, dynamic>; // Lấy dữ liệu từ document
     return DebtPaymentModel(
-      paymentId: doc.id,
-      debtId: data['debt_id'] ?? '',
-      userId: data['user_id'] ?? '',
-      walletId: data['wallet_id'],
-      amount: (data['amount'] ?? 0.0).toDouble(),
-      date: (data['date'] as Timestamp?)?.toDate() ?? DateTime.now(),
-      note: data['note'],
+      paymentId: doc.id, // Lấy ID từ document
+      debtId: data['debt_id'] ?? '', // Lấy ID khoản nợ
+      userId: data['user_id'] ?? '', // Lấy userId
+      walletId: data['wallet_id'], // Lấy walletId (có thể null)
+      amount: (data['amount'] ?? 0.0).toDouble(), // Lấy số tiền thanh toán
+      date: (data['date'] as Timestamp?)?.toDate() ?? DateTime.now(), // Chuyển Timestamp thành DateTime
+      note: data['note'], // Lấy ghi chú (có thể null)
       createdAt:
-          (data['created_at'] as Timestamp?)?.toDate() ?? DateTime.now(),
+          (data['created_at'] as Timestamp?)?.toDate() ?? DateTime.now(), // Chuyển Timestamp thành DateTime
     );
   }
 
-  /// Convert to Firestore document
+  // Chuyển đổi DebtPaymentModel thành Firestore document
   Map<String, dynamic> toFirestore() {
     return {
-      'debt_id': debtId,
-      'user_id': userId,
-      'wallet_id': walletId,
-      'amount': amount,
-      'date': Timestamp.fromDate(date),
-      'note': note,
-      'created_at': Timestamp.fromDate(createdAt),
+      'debt_id': debtId, // ID khoản nợ
+      'user_id': userId, // ID user
+      'wallet_id': walletId, // ID ví
+      'amount': amount, // Số tiền thanh toán
+      'date': Timestamp.fromDate(date), // Chuyển DateTime thành Timestamp
+      'note': note, // Ghi chú
+      'created_at': Timestamp.fromDate(createdAt), // Chuyển DateTime thành Timestamp
     };
   }
 
-  /// Copy with method
+  // Method tạo bản copy với các giá trị được cập nhật
   DebtPaymentModel copyWith({
     String? paymentId,
     String? debtId,
@@ -63,15 +65,16 @@ class DebtPaymentModel {
     String? note,
     DateTime? createdAt,
   }) {
+    // Trả về DebtPaymentModel mới với giá trị mới hoặc giữ nguyên giá trị cũ
     return DebtPaymentModel(
-      paymentId: paymentId ?? this.paymentId,
-      debtId: debtId ?? this.debtId,
-      userId: userId ?? this.userId,
-      walletId: walletId ?? this.walletId,
-      amount: amount ?? this.amount,
-      date: date ?? this.date,
-      note: note ?? this.note,
-      createdAt: createdAt ?? this.createdAt,
+      paymentId: paymentId ?? this.paymentId, // Dùng paymentId mới hoặc giữ nguyên
+      debtId: debtId ?? this.debtId, // Dùng debtId mới hoặc giữ nguyên
+      userId: userId ?? this.userId, // Dùng userId mới hoặc giữ nguyên
+      walletId: walletId ?? this.walletId, // Dùng walletId mới hoặc giữ nguyên
+      amount: amount ?? this.amount, // Dùng amount mới hoặc giữ nguyên
+      date: date ?? this.date, // Dùng date mới hoặc giữ nguyên
+      note: note ?? this.note, // Dùng note mới hoặc giữ nguyên
+      createdAt: createdAt ?? this.createdAt, // Dùng createdAt mới hoặc giữ nguyên
     );
   }
 }
